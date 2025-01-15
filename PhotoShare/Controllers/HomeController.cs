@@ -1,14 +1,12 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-//using PhotoShare.Models;
 
 namespace PhotoShare.Controllers
 {
     public class HomeController : Controller
     {
+        // Constructor
         public HomeController()
-        {
-            // Constructor code goes here        
+        {                  
         }
 
         public IActionResult Index()
