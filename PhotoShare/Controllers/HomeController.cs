@@ -49,7 +49,7 @@ namespace PhotoShare.Controllers
             // a variable to store number of photos in the list
             int numPhotos = photos.Count;
 
-            return View();
+            return View(photos);
         }
 
         // Get photo details by id
@@ -65,7 +65,7 @@ namespace PhotoShare.Controllers
             photo.ImageFilename = "parrot.jpg";
             photo.IsPublic = true;
 
-            return View();
+            return View(photo);
         }
 
         // Privacy page
