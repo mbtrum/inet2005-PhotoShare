@@ -1,21 +1,26 @@
-﻿namespace PhotoShare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoShare.Models
 {
     public class Photo
     {
-        // Primary key
+        // primary key
         public int PhotoId { get; set; }
 
-        public string Title { get; set; } = string.Empty;
-
+        [Required(ErrorMessage = "A description is required.")]
         public string Description { get; set; } = string.Empty;
 
-        public DateTime CreatedAt { get; set; }
+        public string Location { get; set; } = string.Empty;
+
+        public string Camera { get; set; } = string.Empty;
 
         public string ImageFilename { get; set; } = string.Empty;
 
-        public bool IsPublic { get; set; } = false;
+        public bool IsVisible { get; set; } = false;
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation property
-        public List<Tag>? Tags { get; set; } // nullable!!
+        public List<Tag>? Tags { get; set; }  // nullable!!!
     }
 }

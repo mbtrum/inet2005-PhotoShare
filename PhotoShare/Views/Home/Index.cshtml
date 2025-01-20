@@ -4,25 +4,19 @@
     // A razor block of code
 
     ViewData["Title"] = "Home Page";
-
-    string actionName = "PhotoDetails";
 }
 
 <h1>All Photos</h1>
 
 @foreach(var item in Model)
 {
-    <div>
-        <h2>@item.Title</h2>
-        <p>
-            @item.Title<br />
-            @item.Description<br />
-            @item.CreatedAt<br />
-            @item.ImageFilename<br />
+    <p>
+        @item.Description<br />
+        @item.CreatedAt<br />
+        @item.ImageFilename<br />
 
-            <a asp-controller="Home" asp-action="@actionName" asp-route-id="@item.PhotoId">Display photo</a> |
+        <a asp-controller="Home" asp-action="PhotoDetails" asp-route-id="@item.PhotoId">Display photo</a> |
 
-            <a href="/home/photodetails/@item.PhotoId">Display photo</a>
-        </p>
-    </div>
+        <a href="/home/photodetails/@item.PhotoId">Display photo</a>
+    </p>
 }
