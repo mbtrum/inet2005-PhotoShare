@@ -22,7 +22,7 @@ namespace PhotoShare.Controllers
         // GET: Photos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Photo.ToListAsync());
+            return View(await _context.Photo.Include("Tags").ToListAsync());
         }
 
         // GET: Photos/Details/5
@@ -33,8 +33,8 @@ namespace PhotoShare.Controllers
                 return NotFound();
             }
 
-            var photo = await _context.Photo
-                .FirstOrDefaultAsync(m => m.PhotoId == id);
+            var photo = await _context.Photo.Include("Tags").FirstOrDefaultAsync(m => m.PhotoId == id);
+
             if (photo == null)
             {
                 return NotFound();
@@ -56,12 +56,16 @@ namespace PhotoShare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PhotoId,Description,Location,Camera,ImageFilename,IsVisible,CreatedAt")] Photo photo)
         {
+            // Validation
             if (ModelState.IsValid)
             {
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
+
+                // Re-direct to the Photos/Index page
                 return RedirectToAction(nameof(Index));
             }
+
             return View(photo);
         }
 
@@ -73,11 +77,14 @@ namespace PhotoShare.Controllers
                 return NotFound();
             }
 
-            var photo = await _context.Photo.FindAsync(id);
+            // Include tags in the query
+            var photo = await _context.Photo.Include("Tags").FirstOrDefaultAsync(m => m.PhotoId == id);
+
             if (photo == null)
             {
                 return NotFound();
             }
+            
             return View(photo);
         }
 
@@ -111,8 +118,10 @@ namespace PhotoShare.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(photo);
         }
 
@@ -124,13 +133,13 @@ namespace PhotoShare.Controllers
                 return NotFound();
             }
 
-            var photo = await _context.Photo
-                .FirstOrDefaultAsync(m => m.PhotoId == id);
+            var photo = await _context.Photo.FirstOrDefaultAsync(m => m.PhotoId == id);
+            
             if (photo == null)
             {
                 return NotFound();
             }
-
+            
             return View(photo);
         }
 
@@ -140,12 +149,14 @@ namespace PhotoShare.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
+
             if (photo != null)
             {
                 _context.Photo.Remove(photo);
             }
 
             await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 

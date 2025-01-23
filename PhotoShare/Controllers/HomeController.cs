@@ -1,50 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PhotoShare.Data;
 using PhotoShare.Models;
 
 namespace PhotoShare.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly PhotoShareContext _context;
+
         // Constructor
-        public HomeController()
+        public HomeController(PhotoShareContext context)
         {    
+            _context = context;
         }
 
         // Home page - ../ or ../Home/Controller
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // create a list of photos
-            List<Photo> photos = new List<Photo>();
-
-            // create 3 photo objects
-            Photo photo1 = new Photo();
-            photo1.PhotoId = 1;
-            photo1.Description = "A picture of my cat.";
-            photo1.CreatedAt = DateTime.Now;
-            photo1.ImageFilename = "cat.jpg";
-            photo1.IsVisible = true;
-
-            Photo photo2 = new Photo();
-            photo2.PhotoId = 2;
-            photo2.Description = "A picture of my dog.";
-            photo2.CreatedAt = DateTime.Now;
-            photo2.ImageFilename = "dog.jpg";
-            photo2.IsVisible = true;
-
-            Photo photo3 = new Photo();
-            photo3.PhotoId = 3;
-            photo3.Description = "A picture of my hamster.";
-            photo3.CreatedAt = DateTime.Now;
-            photo3.ImageFilename = "hamster.jpg";
-            photo3.IsVisible = true;
-
-            // add the 3 photo objects to the list
-            photos.Add(photo1);
-            photos.Add(photo2);
-            photos.Add(photo3);
-
-            // a variable to store number of photos in the list
-            int numPhotos = photos.Count;
+            // get all photo records
+            List<Photo> photos = await _context.Photo.Include("Tags").ToListAsync();
 
             return View(photos);
         }
