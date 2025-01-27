@@ -24,12 +24,14 @@ namespace PhotoShare.Controllers
         }
 
         // Deleted the following actions: 
-
         // GET: Tags/Index
         // GET: Tags/Details/5
         // GET: Tags/Edit/5
         // POST: Tags/Edit/5
 
+        //
+        // CREATE
+        //
 
         // GET: Tags/Create
         public IActionResult Create(int? id)
@@ -66,8 +68,9 @@ namespace PhotoShare.Controllers
             return View(tag);
         }
 
-        
-       
+        //
+        // DELETE
+        //
 
         // GET: Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -80,6 +83,7 @@ namespace PhotoShare.Controllers
             var tag = await _context.Tag
                 .Include(t => t.Photo)
                 .FirstOrDefaultAsync(m => m.TagId == id);
+
             if (tag == null)
             {
                 return NotFound();
@@ -94,13 +98,16 @@ namespace PhotoShare.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tag = await _context.Tag.FindAsync(id);
+
             if (tag != null)
             {
                 _context.Tag.Remove(tag);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            // Re-direct back to /Photos/Edit/{PhotoId}
+            return RedirectToAction("Edit", "Photos", new { id = tag.PhotoId });
         }
 
         private bool TagExists(int id)

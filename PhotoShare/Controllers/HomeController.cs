@@ -19,22 +19,26 @@ namespace PhotoShare.Controllers
         public async Task<IActionResult> Index()
         {
             // get all photo records
-            List<Photo> photos = await _context.Photo.Include("Tags").ToListAsync();
+            var photos = await _context.Photo.Include(m => m.Tags).ToListAsync();
 
             return View(photos);
         }
 
         // Get photo details by id - ../Home/PhotoDetails/389
-        public IActionResult PhotoDetails(int id)
+        public async Task<IActionResult> PhotoDetails(int? id)
         {
-            // create a photo object
-            Photo photo = new Photo();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            photo.PhotoId = id;
-            photo.Description = "A picture of my parrot.";
-            photo.CreatedAt = DateTime.Now;
-            photo.ImageFilename = "parrot.jpg";
-            photo.IsVisible = true;
+            // get photo by id
+            var photo = await _context.Photo.Include(m => m.Tags).FirstOrDefaultAsync(m => m.PhotoId == id);
+
+            if (photo == null) 
+            {
+                return NotFound();
+            }
 
             return View(photo);
         }
