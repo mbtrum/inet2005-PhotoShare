@@ -56,15 +56,13 @@ namespace PhotoShare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PhotoId,Description,Location,Camera,ImageFile,IsVisible")] Photo photo)
         {
-            // set the create date
-            photo.CreatedAt = DateTime.Now;
-
             // rename the uploaded file to a guid (unique filename). Set before photo saved in database.
             photo.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(photo.ImageFile?.FileName);
 
             // Validation
             if (ModelState.IsValid)
             {
+
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
 
