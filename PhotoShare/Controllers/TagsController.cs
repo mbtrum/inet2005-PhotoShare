@@ -28,6 +28,7 @@ namespace PhotoShare.Controllers
         // GET: Tags/Details/5
         // GET: Tags/Edit/5
         // POST: Tags/Edit/5
+        // POST: Tags/Delete/5
 
         //
         // CREATE
@@ -89,30 +90,12 @@ namespace PhotoShare.Controllers
                 return NotFound();
             }
 
-            return View(tag);
-        }
-
-        // POST: Tags/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var tag = await _context.Tag.FindAsync(id);
-
-            if (tag != null)
-            {
-                _context.Tag.Remove(tag);
-            }
-
+            _context.Tag.Remove(tag);
             await _context.SaveChangesAsync();
 
             // Re-direct back to /Photos/Edit/{PhotoId}
             return RedirectToAction("Edit", "Photos", new { id = tag.PhotoId });
         }
 
-        private bool TagExists(int id)
-        {
-            return _context.Tag.Any(e => e.TagId == id);
-        }
     }
 }

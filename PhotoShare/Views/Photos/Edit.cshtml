@@ -4,15 +4,20 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit Photo</h1>
 
-<h4>Photo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PhotoId" />
+            <input type="hidden" asp-for="ImageFilename" />
+
+            <div class="mb-3">
+                <img src="~/photos/@Model.ImageFilename" class="thumbnail" alt="@Model.Description" />
+            </div>
+
             <div class="mb-3">
                 <label asp-for="Description" class="form-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -28,20 +33,21 @@
                 <input asp-for="Camera" class="form-control" />
                 <span asp-validation-for="Camera" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="ImageFilename" class="form-label"></label>
-                <input asp-for="ImageFilename" class="form-control" />
-                <span asp-validation-for="ImageFilename" class="text-danger"></span>
-            </div>
+            @* <div class="mb-3"> *@
+            @*     <label asp-for="ImageFilename" class="form-label"></label> *@
+            @*     <input asp-for="ImageFilename" class="form-control" /> *@
+            @*     <span asp-validation-for="ImageFilename" class="text-danger"></span> *@
+            @* </div> *@
             <div class="mb-3 form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsVisible" /> @Html.DisplayNameFor(model => model.IsVisible)
                 </label>
             </div>
             <div class="mb-3">
-                <label asp-for="CreatedAt" class="form-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                Created: @Model.CreatedAt.ToString("MMM d, yyyy")
+                @* <label asp-for="CreatedAt" class="form-label"></label> *@
+                @* <input asp-for="CreatedAt" class="form-control" readonly /> *@
+                @* <span asp-validation-for="CreatedAt" class="text-danger"></span> *@
             </div>
             <div class="mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />

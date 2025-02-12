@@ -6,8 +6,14 @@
     ViewData["Title"] = "Home Page";
 }
 
+<h1 class="fw-bold">Resplash</h1>
+<p>
+    The internet’s source for visuals.<br />
+    Powered by creators everywhere.
+</p>
 
-<div class="masonry-grid">
+
+<div class="masonry-grid mt-3">
     @foreach (var item in Model)
     {
         string imageUrl = Url.Content("/photos/" + item.ImageFilename);

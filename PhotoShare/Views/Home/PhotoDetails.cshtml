@@ -5,40 +5,26 @@
     ViewData["Title"] = "Photo Details";
 }
 
-<div class="row">
-    <div class="col-md-4">
+
+
+<div class="container mt-3">
+    <div class="mx-auto w-50">
         <img src="@Url.Content("/photos/" + Model.ImageFilename)" alt="@Model.Description" class="img-fluid" />
     </div>
+
+
+    <h5>"@Model.Description"</h5>
+    <p class="text-secondary small"><i class="fa-solid fa-location-dot"></i> @Model.Location</p>
+    <p class="text-secondary small"><i class="fa-regular fa-calendar-days"></i> Published on @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+    <p class="text-secondary small"><i class="fa-solid fa-camera"></i> @Model.Camera</p>
+    <p class="text-secondary small"><i class="fa-solid fa-shield-halved"></i> Free to use under the Unsplash License</p>
 </div>
 
-
-<table class="table">
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => @model.PhotoId)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.PhotoId)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Description)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </td>
-    </tr>
-</table>
-
-<p>
-    <i class="fa-solid fa-location-dot"></i>
-</p>
+@if(Model.Tags != null){
+    <div class="d-flex flex-wrap gap-2">
+        @foreach (var tag in Model.Tags)
+        {
+            <span class="badge text-bg-secondary p-2">@tag.Name</span>
+        }
+    </div>
+}

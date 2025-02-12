@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
@@ -21,9 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Camera)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFilename)
-            </th>
+            @* <th> *@
+            @*     @Html.DisplayNameFor(model => model.ImageFilename) *@
+            @* </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.IsVisible)
             </th>
@@ -37,6 +38,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="~/photos/@item.ImageFilename" class="thumbnail" alt="@item.Description" />
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
@@ -45,9 +49,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Camera)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFilename)
-            </td>
+            @* <td> *@
+            @*     @Html.DisplayFor(modelItem => item.ImageFilename) *@
+            @* </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.IsVisible)
             </td>
@@ -56,7 +60,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PhotoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PhotoId">Details</a> |
+                @* <a asp-action="Details" asp-route-id="@item.PhotoId">Details</a> | *@
                 <a asp-action="Delete" asp-route-id="@item.PhotoId">Delete</a>
             </td>
         </tr>
