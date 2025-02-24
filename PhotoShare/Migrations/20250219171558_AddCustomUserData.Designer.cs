@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoShare.Data;
 
@@ -11,9 +12,11 @@ using PhotoShare.Data;
 namespace PhotoShare.Migrations
 {
     [DbContext(typeof(PhotoShareContext))]
-    partial class PhotoShareContextModelSnapshot : ModelSnapshot
+    [Migration("20250219171558_AddCustomUserData")]
+    partial class AddCustomUserData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,10 +185,6 @@ namespace PhotoShare.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ImageFilename")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsForHire")
                         .HasColumnType("bit");
 
@@ -251,10 +250,6 @@ namespace PhotoShare.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhotoId"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Camera")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -278,8 +273,6 @@ namespace PhotoShare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PhotoId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Photo");
                 });
@@ -355,17 +348,6 @@ namespace PhotoShare.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PhotoShare.Models.Photo", b =>
-                {
-                    b.HasOne("PhotoShare.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("PhotoShare.Models.Tag", b =>

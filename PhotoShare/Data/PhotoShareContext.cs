@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PhotoShare.Models;
 
 namespace PhotoShare.Data
 {
-    public class PhotoShareContext : IdentityDbContext
+    public class PhotoShareContext : IdentityDbContext<ApplicationUser>
     {
         public PhotoShareContext (DbContextOptions<PhotoShareContext> options)
             : base(options)

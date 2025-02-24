@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhotoShare.Data;
@@ -33,7 +34,10 @@ namespace PhotoShare.Controllers
             }
 
             // get photo by id
-            var photo = await _context.Photo.Include(m => m.Tags).FirstOrDefaultAsync(m => m.PhotoId == id);
+            var photo = await _context.Photo
+                .Include(m => m.Tags)
+                .Include(m => m.ApplicationUser)  // include the User nav prop
+                .FirstOrDefaultAsync(m => m.PhotoId == id);
 
             if (photo == null) 
             {
@@ -43,7 +47,7 @@ namespace PhotoShare.Controllers
             return View(photo);
         }
 
-        // Privacy page
+        // Privacy page     
         public IActionResult Privacy()
         {
             return View();

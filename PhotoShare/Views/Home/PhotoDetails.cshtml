@@ -5,13 +5,30 @@
     ViewData["Title"] = "Photo Details";
 }
 
+@if (Model.ApplicationUser != null)
+{
+    <div class="d-flex">
+        @if (!string.IsNullOrEmpty(Model.ApplicationUser.ImageFilename)){
+            <div>
+                <img src="@Url.Content("/profile_img/" + Model.ApplicationUser.ImageFilename)" alt="@Model.ApplicationUser.Name" class="profile-thumb" />
+            </div>
+        }
+        <div class="ps-2">
+            @Model.ApplicationUser.Name
 
+            @if (Model.ApplicationUser.IsForHire)
+            {
+                <div class="text-primary" style="font-size: 0.9em">Available for hire <i class="fa-solid fa-circle-check"></i></div>
+            }
+        </div>
+    </div>
+    
+}
 
 <div class="container mt-3">
     <div class="mx-auto w-50">
         <img src="@Url.Content("/photos/" + Model.ImageFilename)" alt="@Model.Description" class="img-fluid" />
     </div>
-
 
     <h5>"@Model.Description"</h5>
     <p class="text-secondary small"><i class="fa-solid fa-location-dot"></i> @Model.Location</p>
@@ -20,7 +37,8 @@
     <p class="text-secondary small"><i class="fa-solid fa-shield-halved"></i> Free to use under the Unsplash License</p>
 </div>
 
-@if(Model.Tags != null){
+@if(Model.Tags != null)
+{
     <div class="d-flex flex-wrap gap-2">
         @foreach (var tag in Model.Tags)
         {
